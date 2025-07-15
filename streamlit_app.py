@@ -1,18 +1,9 @@
 import streamlit as st
 
-def show_materi(topik):
-            if topik=="Kimia Organik":
-                        st.subheader("Materi Kimia Organik")
-                        st.write("""
-                        - Hidrokarbon
-                        - Alkohol Fenol Eter
-                        - Aldehid dan Keton
-                        - Asam Kerboksilat
-                        - Amina
-                        """)
-            else:
-                        st.subheader("Materi Kimia Anorganik")
-                        st.write("""
-                        - Uji Nyala
-                        - Uji Kualitatif
-                        """)                        
+animal_shelter = ['cat', 'dog', 'rabbit', 'bird']
+
+animal = st.text_input('Type an animal')
+
+if st.button('Check availability'):
+    have_it = animal.lower() in animal_shelter
+    'We have that animal!' if have_it else 'We don\'t have that animal.'
