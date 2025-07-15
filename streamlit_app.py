@@ -1,14 +1,23 @@
-import streamlit as st
+# Draw a title and some text to the app:
+'''
+# This is the document title
+
+This is some _markdown_.
+'''
+
 import pandas as pd
+df = pd.DataFrame({'col1': [1,2,3]})
+df  # 👈 Draw the dataframe
+
+x = 10
+'x', x  # 👈 Draw the string 'x' and then the value of x
+
+# Also works with most supported chart types
+import matplotlib.pyplot as plt
 import numpy as np
-import time
 
-df = pd.DataFrame(np.random.randn(15, 3), columns=(["A", "B", "C"]))
-my_data_element = st.line_chart(df)
+arr = np.random.normal(1, 1, size=100)
+fig, ax = plt.subplots()
+ax.hist(arr, bins=20)
 
-for tick in range(10):
-    time.sleep(.5)
-    add_df = pd.DataFrame(np.random.randn(1, 3), columns=(["A", "B", "C"]))
-    my_data_element.add_rows(add_df)
-
-st.button("Regenerate")
+fig  # 👈 Draw a Matplotlib chart
