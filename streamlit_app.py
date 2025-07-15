@@ -1,23 +1,25 @@
 import streamlit as st
-import pandas as pd
-import time
+from dataclasses import dataclass
 
-def expensive_process(option, add):
-    with st.spinner('Processing...'):
-        time.sleep(5)
-    df = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6], 'C':[7, 8, 9]}) + add
-    return (df, add)
+@dataclass
+class MyDataclass:
+    var1: int
+    var2: float
 
-cols = st.columns(2)
-option = cols[0].selectbox('Select a number', options=['1', '2', '3'])
-add = cols[1].number_input('Add a number', min_value=0, max_value=10)
+    def to_str(self):
+        return f"{self.var1},{self.var2}"
 
-if 'processed' not in st.session_state:
-    st.session_state.processed = {}
+    @classmethod
+    def from_str(cls, serial_str):
+        values = serial_str.split(",")
+        var1 = int(values[0])
+        var2 = float(values[1])
+        return cls(var1, var2)
 
-# Process and save results
-if st.button('Process'):
-    result = expensive_process(option, add)
-    st.session_state.processed[option] = result
-    st.write(f'Option {option} processed with add {add}')
-    result[0]
+if "my_dataclass" not in st.session_state:
+    st.session_state.my_dataclass = MyDataclass(1, 5.5).to_str()
+
+# Displays True on every rerun
+MyDataclass.from_str(st.session_state.my_dataclass) == MyDataclass(1, 5.5)
+
+st.button("Rerun")
