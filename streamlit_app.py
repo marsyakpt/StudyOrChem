@@ -1,16 +1,23 @@
 import streamlit as st
-
 import pandas as pd
+import time
 
-if 'name' not in st.session_state:
-    st.session_state['name'] = 'John Doe'
+def expensive_process(option, add):
+    with st.spinner('Processing...'):
+        time.sleep(5)
+    df = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6], 'C':[7, 8, 9]}) + add
+    return (df, add)
 
-st.header(st.session_state['name'])
+cols = st.columns(2)
+option = cols[0].selectbox('Select a number', options=['1', '2', '3'])
+add = cols[1].number_input('Add a number', min_value=0, max_value=10)
 
-if st.button('Jane'):
-    st.session_state['name'] = 'Jane Doe'
+if 'processed' not in st.session_state:
+    st.session_state.processed = {}
 
-if st.button('John'):
-    st.session_state['name'] = 'John Doe'
-
-st.header(st.session_state['name'])
+# Process and save results
+if st.button('Process'):
+    result = expensive_process(option, add)
+    st.session_state.processed[option] = result
+    st.write(f'Option {option} processed with add {add}')
+    result[0]
